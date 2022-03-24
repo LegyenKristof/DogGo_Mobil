@@ -1,4 +1,4 @@
-package com.example.doggo_mobil.activities;
+package com.example.doggo_mobil;
 
 public class Location {
     private int id;

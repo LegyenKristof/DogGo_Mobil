@@ -1,20 +1,18 @@
 package com.example.doggo_mobil.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doggo_mobil.Location;
 import com.example.doggo_mobil.R;
 import com.example.doggo_mobil.RequestHandler;
 import com.example.doggo_mobil.Response;
@@ -29,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listViewLocations;
     private List<Location> locationList;
-    private static final String URL = "http://192.168.0.199:8000/api/";
+    public static final String URL = "http://192.168.0.199:8000/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
                 locationList.addAll(Arrays.asList(locations));
                 ArrayAdapter<Location> arrayAdapter = new ArrayAdapter<Location>(MainActivity.this, R.layout.activity_listitem, R.id.textViewListItem, locationList);
                 listViewLocations.setAdapter(arrayAdapter);
+                listViewLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Location location = locationList.get(i);
+                        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+                        intent.putExtra("id", location.getId());
+                        startActivity(intent);
+                    }
+                });
             }
 
         }
