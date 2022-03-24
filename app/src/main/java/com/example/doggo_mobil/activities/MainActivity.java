@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listViewLocations;
     private List<Location> locationList;
+//    public static final String URL = "http://10.0.2.2:8000/api/";
     public static final String URL = "http://192.168.0.199:8000/api/";
 
     @Override
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        RequestTask task = new RequestTask();
+        LocationTask task = new LocationTask();
         task.execute();
     }
 
@@ -43,14 +43,13 @@ public class MainActivity extends AppCompatActivity {
         locationList = new ArrayList<>();
     }
 
-    private class RequestTask extends AsyncTask<Void, Void, Response> {
+    private class LocationTask extends AsyncTask<Void, Void, Response> {
 
         @Override
         protected Response doInBackground(Void... voids) {
 
             Response response = null;
             try {
-//               response = RequestHandler.get("http://10.0.2.2:8000/api/locations");
                 response = RequestHandler.get(URL + "locations");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Location[] locations = converter.fromJson(response.getContent(), Location[].class);
                 locationList.clear();
                 locationList.addAll(Arrays.asList(locations));
-                ArrayAdapter<Location> arrayAdapter = new ArrayAdapter<Location>(MainActivity.this, R.layout.activity_listitem, R.id.textViewListItem, locationList);
+                ArrayAdapter<Location> arrayAdapter = new ArrayAdapter<Location>(MainActivity.this, R.layout.activity_locationlistitem, R.id.textViewListItem, locationList);
                 listViewLocations.setAdapter(arrayAdapter);
                 listViewLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
