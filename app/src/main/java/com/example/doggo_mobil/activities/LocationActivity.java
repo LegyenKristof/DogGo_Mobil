@@ -65,9 +65,8 @@ public class LocationActivity extends AppCompatActivity {
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
             Gson converter = new Gson();
-            if (response.getResponseCode() >= 400){
+            if (response == null || response.getResponseCode() >= 400){
                 Toast.makeText(LocationActivity.this, "Hiba történt a kérés feldolgozása során", Toast.LENGTH_SHORT).show();
-                Log.d("onPostExecuteError: ", response.getContent());
             }
             else {
                 Location location = converter.fromJson(response.getContent(), Location.class);
