@@ -1,6 +1,9 @@
 package com.example.doggo_mobil.activities;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listViewLocations;
     private List<Location> locationList;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
 //    public static final String URL = "http://10.0.2.2:8000/api/";
     public static final String URL = "http://192.168.0.199:8000/api/";
 
@@ -34,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this, drawerLayout, toolbar,
+            R.string.nav_drawer_open, R.string.nav_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
         LocationTask task = new LocationTask();
         task.execute();
     }
@@ -41,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         listViewLocations = findViewById(R.id.listViewLocations);
         locationList = new ArrayList<>();
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
     }
 
     private class LocationTask extends AsyncTask<Void, Void, Response> {
