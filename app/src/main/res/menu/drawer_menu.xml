@@ -11,6 +11,14 @@
             android:icon="@drawable/ic_register"
             android:title="Regisztráció"/>
 
+        <item android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="Adatlapom"/>
+
+        <item android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_login"
+            android:title="Kijelentkezés"/>
+
     </group>
 
 </menu>

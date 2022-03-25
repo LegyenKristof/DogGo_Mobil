@@ -14,6 +14,9 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.UserActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.LocationActivity"
             android:exported="false" />
         <activity

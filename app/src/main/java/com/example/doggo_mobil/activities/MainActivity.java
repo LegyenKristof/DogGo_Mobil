@@ -7,7 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView nav_view;
+    private SharedPreferences sharedPreferences;
 //    public static final String URL = "http://10.0.2.2:8000/api/";
     public static final String URL = "http://192.168.0.199:8000/api/";
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = MainActivity.this.getSharedPreferences("token", Context.MODE_PRIVATE);
         init();
 
         setSupportActionBar(toolbar);
@@ -68,10 +72,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_login:
-                Toast.makeText(MainActivity.this, "asd", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
             case R.id.nav_register:
                 startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                break;
+            case R.id.nav_profile:
+                String token = sharedPreferences.getString("token", "nincs");
+                if (token == "nincs") {
+                    Toast.makeText(MainActivity.this, "Ön nincs bejelentkezve.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    startActivity(new Intent(MainActivity.this, UserActivity.class));
+                }
+                break;
+            case R.id.nav_logout:
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String token1 = sharedPreferences.getString("token", "nincs");
+                if(token1 == "nincs") {
+                    Toast.makeText(MainActivity.this, "Ön nincs bejelentkezve.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    editor.remove("token");
+                    editor.apply();
+                    Toast.makeText(MainActivity.this, "Sikeres kijelentkezés", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

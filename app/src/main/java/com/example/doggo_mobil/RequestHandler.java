@@ -17,6 +17,11 @@ public class RequestHandler {
         HttpURLConnection conn = setupConnection(url);
         return getResponse(conn);
     }
+    public static Response getBearer(String url, String token) throws IOException {
+        HttpURLConnection conn = setupConnection(url);
+        conn.setRequestProperty("Authorization", "Bearer " + token);
+        return getResponse(conn);
+    }
     public static Response post(String url, String data) throws IOException {
         HttpURLConnection conn = setupConnection(url);
         conn.setRequestMethod("POST");
