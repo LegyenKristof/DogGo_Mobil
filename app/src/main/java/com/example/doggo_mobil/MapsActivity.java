@@ -91,6 +91,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             navigationViewMaps.getMenu().findItem(R.id.drawer_menu_logout).setVisible(true);
         }
 
+        navigationViewMaps.getMenu().findItem(R.id.drawer_menu_feedback).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                drawerLayoutMaps.closeDrawer(GravityCompat.START);
+                Intent intent = new Intent(MapsActivity.this, FeedbackActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
         navigationViewMaps.getMenu().findItem(R.id.drawer_menu_register).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {

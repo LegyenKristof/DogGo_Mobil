@@ -4,6 +4,11 @@
     tools:ignore="HardcodedText">
 
     <item
+        android:id="@+id/drawer_menu_feedback"
+        android:title="Visszajelzés"
+        android:visible="true"/>
+
+    <item
         android:id="@+id/drawer_menu_login"
         android:title="Bejelentkezés"
         android:visible="true"/>
