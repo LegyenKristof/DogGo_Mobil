@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 public class FeedbackActivity extends AppCompatActivity {
@@ -71,11 +73,21 @@ public class FeedbackActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
-            if (response == null || response.getResponseCode() >= 400){
-                Toast.makeText(FeedbackActivity.this, "Hiba történt a visszajelzés küldése során!", Toast.LENGTH_SHORT).show();
+            Gson converter = new Gson();
+            if (response == null){
+                Toast.makeText(FeedbackActivity.this, "Hiba történt a visszajelzés küldése során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(FeedbackActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(FeedbackActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
-                Toast.makeText(FeedbackActivity.this, "Sikeres visszajelzés!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedbackActivity.this, "Sikeres visszajelzés", Toast.LENGTH_SHORT).show();
                 finish();
             }
 

@@ -88,8 +88,17 @@ public class NewLocationActivity extends AppCompatActivity {
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
             Gson converter = new Gson();
-            if (response == null || response.getResponseCode() >= 400){
+            if (response == null){
                 Toast.makeText(NewLocationActivity.this, "Hiba történt a hely hozzáadása során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(NewLocationActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(NewLocationActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 User user = converter.fromJson(response.getContent(), User.class);
@@ -119,9 +128,19 @@ public class NewLocationActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
-            if (response == null || response.getResponseCode() >= 400){
+            Gson converter = new Gson();
+            if (response == null){
                 Toast.makeText(NewLocationActivity.this, "Hiba történt a hely hozzáadása során", Toast.LENGTH_SHORT).show();
                 System.out.println(response.getContent());
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(NewLocationActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(NewLocationActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 Toast.makeText(NewLocationActivity.this, "Hely hozzáadása sikeres", Toast.LENGTH_SHORT).show();

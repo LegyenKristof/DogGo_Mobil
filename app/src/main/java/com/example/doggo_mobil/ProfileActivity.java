@@ -112,8 +112,17 @@ public class ProfileActivity extends AppCompatActivity {
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
             Gson converter = new Gson();
-            if (response == null || response.getResponseCode() >= 400){
+            if (response == null){
                 Toast.makeText(ProfileActivity.this, "Hiba történt a felhasználó betöltése során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(ProfileActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(ProfileActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 user = converter.fromJson(response.getContent(), User.class);
@@ -146,8 +155,18 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
-            if (response == null || response.getResponseCode() >= 400){
-                Toast.makeText(ProfileActivity.this, "Hiba történt a módosítás során!", Toast.LENGTH_SHORT).show();
+            Gson converter = new Gson();
+            if (response == null){
+                Toast.makeText(ProfileActivity.this, "Hiba történt a módosítás során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(ProfileActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(ProfileActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 Toast.makeText(ProfileActivity.this, "Sikeres módosítás", Toast.LENGTH_SHORT).show();

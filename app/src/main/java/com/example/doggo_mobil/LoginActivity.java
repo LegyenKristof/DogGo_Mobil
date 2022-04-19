@@ -88,15 +88,21 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
+            Gson converter = new Gson();
             if (response == null){
                 Toast.makeText(LoginActivity.this, "Hiba történt a bejelentkezés során", Toast.LENGTH_SHORT).show();
             }
-            else if (response.getResponseCode() >= 400) {
-//                Toast.makeText(LoginActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(LoginActivity.this, "Hiba történt a bejelentkezés során", Toast.LENGTH_SHORT).show();
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(LoginActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(LoginActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
-                Toast.makeText(LoginActivity.this, "Sikeres bejelentkezés!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Sikeres bejelentkezés", Toast.LENGTH_SHORT).show();
                 try {
                     Gson gson = new Gson();
                     Token token = gson.fromJson(response.getContent(), Token.class);

@@ -73,14 +73,12 @@ public class RatingActivity extends AppCompatActivity implements AdapterView.OnI
         spinnerStars = findViewById(R.id.spinnerStars);
         editTextRating = findViewById(R.id.editTextRating);
         stars = "5";
-        Toast.makeText(this, location_id, Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         stars = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(this, stars, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -108,8 +106,12 @@ public class RatingActivity extends AppCompatActivity implements AdapterView.OnI
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
             Gson converter = new Gson();
-            if (response == null || response.getResponseCode() >= 400){
-                Toast.makeText(RatingActivity.this, "Hiba történt az értékelés hozzáadása során", Toast.LENGTH_SHORT).show();
+            if (response == null){
+                Toast.makeText(RatingActivity.this, "Hiba történt az értékelés során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                Toast.makeText(RatingActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
             }
             else {
                 User user = converter.fromJson(response.getContent(), User.class);

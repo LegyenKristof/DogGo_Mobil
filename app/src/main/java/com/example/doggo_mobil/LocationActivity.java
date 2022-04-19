@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Rating;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,6 +45,8 @@ public class LocationActivity extends AppCompatActivity {
     private ListView listViewRatings;
     public List<LocationRating> ratingList = new ArrayList<>();
     private Button buttonVissza, buttonRating;
+    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,13 @@ public class LocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_location);
         id = getIntent().getExtras().getInt("id");
         init();
+
+        sharedPreferences = LocationActivity.this.getSharedPreferences("token", Context.MODE_PRIVATE);
+
+        if(sharedPreferences.getString("token", "").isEmpty()) {
+            buttonRating.setVisibility(View.GONE);
+        }
+
 
         buttonVissza.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,8 +154,17 @@ public class LocationActivity extends AppCompatActivity {
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
             Gson converter = new Gson();
-            if (response == null || response.getResponseCode() >= 400){
+            if (response == null){
                 Toast.makeText(LocationActivity.this, "Hiba történt a kérés feldolgozása során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(LocationActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(LocationActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 LocationRating[] locationRatings = converter.fromJson(response.getContent(), LocationRating[].class);
@@ -158,37 +177,4 @@ public class LocationActivity extends AppCompatActivity {
 
         }
     }
-
-//    private class LocationTask extends AsyncTask<Void, Void, Response> {
-//
-//        @Override
-//        protected Response doInBackground(Void... voids) {
-//
-//            Response response = null;
-//            try {
-//                response = RequestHandler.get(MainActivity.URL + "locations/" + id);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//            return response;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Response response) {
-//            super.onPostExecute(response);
-//            Gson converter = new Gson();
-//            if (response == null || response.getResponseCode() >= 400){
-//                Toast.makeText(LocationActivity.this, "Hiba történt a kérés feldolgozása során", Toast.LENGTH_SHORT).show();
-//            }
-//            else {
-//                Location location = converter.fromJson(response.getContent(), Location.class);
-//                textViewLocationName.setText(location.getName());
-//                textViewLocationLatLng.setText("Lat: " + location.getLat() + "\nLng: " + location.getLng());
-//                textViewLocationDescription.setText(location.getDescription());
-//            }
-//
-//        }
-//    }
 }

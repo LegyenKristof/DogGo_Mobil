@@ -4,59 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LocationActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".LocationActivity">
 
     <TextView
         android:id="@+id/textViewLocationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10sp"
         android:text="Location name"
         android:textSize="50sp"
-        android:padding="10sp"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewLocationDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10sp"
         android:text="Location description"
         android:textSize="15sp"
-        android:padding="10sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLocationName"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLocationName" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/listViewComments"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        android:dividerHeight="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRating"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLocationDescription"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ListView
-            android:id="@+id/listViewComments"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            tools:listitem="@layout/rating_list_item"
-            android:dividerHeight="14sp"/>
-
-    </ScrollView>
+        tools:listitem="@layout/rating_list_item" />
 
     <Button
+        android:id="@+id/buttonRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonRating"
         android:text="Értékelés"
         app:layout_constraintBottom_toTopOf="@+id/buttonVissza"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/buttonVissza"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonVissza"
         android:text="Vissza"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

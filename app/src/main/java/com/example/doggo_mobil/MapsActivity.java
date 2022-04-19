@@ -244,8 +244,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
             Gson converter = new Gson();
-            if (response == null || response.getResponseCode() >= 400){
+            if (response == null){
                 Toast.makeText(MapsActivity.this, "Hiba történt a helyek betöltése során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(MapsActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(MapsActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
             }
             else {
                 Location[] locations = converter.fromJson(response.getContent(), Location[].class);
