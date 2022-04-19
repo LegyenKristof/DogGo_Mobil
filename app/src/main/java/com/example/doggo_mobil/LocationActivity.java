@@ -43,7 +43,7 @@ public class LocationActivity extends AppCompatActivity {
     private int id;
     private ListView listViewRatings;
     public List<LocationRating> ratingList = new ArrayList<>();
-    private Button buttonVissza;
+    private Button buttonVissza, buttonRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,15 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        buttonRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LocationActivity.this, RatingActivity.class);
+                intent.putExtra("location_id", id + "");
+                startActivity(intent);
             }
         });
 
@@ -77,6 +86,7 @@ public class LocationActivity extends AppCompatActivity {
         textViewLocationDescription = findViewById(R.id.textViewLocationDescription);
         listViewRatings = findViewById(R.id.listViewComments);
         buttonVissza = findViewById(R.id.buttonVissza);
+        buttonRating = findViewById(R.id.buttonRating);
     }
 
     private class RatingAdapter extends BaseAdapter {
@@ -107,7 +117,7 @@ public class LocationActivity extends AppCompatActivity {
             TextView name = view.findViewById(R.id.textViewRatingName);
             TextView stars = view.findViewById(R.id.textViewRatingStars);
             TextView comment = view.findViewById(R.id.textViewRatingComment);
-            stars.setText(ratingList.get(i).getStars() + "");
+            stars.setText("Értékelés: " + ratingList.get(i).getStars() + "");
             comment.setText(ratingList.get(i).getDescription() + "");
             name.setText(ratingList.get(i).getUsername() + "");
             return view;

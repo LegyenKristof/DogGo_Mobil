@@ -28,15 +28,28 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewLocationName"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <ListView
-        android:id="@+id/listViewComments"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLocationDescription"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ListView
+            android:id="@+id/listViewComments"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            tools:listitem="@layout/rating_list_item"
+            android:dividerHeight="14sp"/>
+
+    </ScrollView>
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/rating_list_item"
+        android:id="@+id/buttonRating"
+        android:text="Értékelés"
         app:layout_constraintBottom_toTopOf="@+id/buttonVissza"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHeight_max="wrap"
-        app:layout_constraintHeight_percent="0.4"/>
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:layout_width="match_parent"

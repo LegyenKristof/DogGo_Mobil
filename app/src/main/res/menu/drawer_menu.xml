@@ -4,9 +4,9 @@
     tools:ignore="HardcodedText">
 
     <item
-        android:id="@+id/drawer_menu_feedback"
-        android:title="Visszajelzés"
-        android:visible="true"/>
+        android:id="@+id/drawer_menu_profile"
+        android:title="Adatlapom"
+        android:visible="false"/>
 
     <item
         android:id="@+id/drawer_menu_new_location"
@@ -24,9 +24,9 @@
         android:visible="true"/>
 
     <item
-        android:id="@+id/drawer_menu_profile"
-        android:title="Adatlapom"
-        android:visible="false"/>
+        android:id="@+id/drawer_menu_feedback"
+        android:title="Visszajelzés"
+        android:visible="true"/>
 
     <item
         android:id="@+id/drawer_menu_logout"

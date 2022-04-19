@@ -3,4 +3,11 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string-array name="stars_array">
+        <item>5</item>
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
 </resources>
