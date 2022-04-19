@@ -9,6 +9,11 @@
         android:visible="true"/>
 
     <item
+        android:id="@+id/drawer_menu_new_location"
+        android:title="Hely hozzáadása"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/drawer_menu_login"
         android:title="Bejelentkezés"
         android:visible="true"/>

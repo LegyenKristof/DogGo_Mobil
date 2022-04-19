@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 MapsActivity.navigationViewMaps.getMenu().findItem(R.id.drawer_menu_login).setVisible(false);
                 MapsActivity.navigationViewMaps.getMenu().findItem(R.id.drawer_menu_register).setVisible(false);
+                MapsActivity.navigationViewMaps.getMenu().findItem(R.id.drawer_menu_new_location).setVisible(true);
                 MapsActivity.navigationViewMaps.getMenu().findItem(R.id.drawer_menu_profile).setVisible(true);
                 MapsActivity.navigationViewMaps.getMenu().findItem(R.id.drawer_menu_logout).setVisible(true);
                 finish();

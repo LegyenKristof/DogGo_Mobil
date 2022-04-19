@@ -30,19 +30,22 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.doggo_mobil.databinding.ActivityMapsBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, OnMapClickListener {
 
     private GoogleMap mMap;
     private SharedPreferences sharedPreferences;
     private DrawerLayout drawerLayoutMaps;
     public static NavigationView navigationViewMaps;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private boolean newLocation = false;
 
     //    public static final String URL = "http://10.0.2.2:8000/api/";
     public static final String URL = "http://192.168.0.199:8000/api/";
@@ -87,6 +90,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(!sharedPreferences.getString("token", "").isEmpty()) {
             navigationViewMaps.getMenu().findItem(R.id.drawer_menu_login).setVisible(false);
             navigationViewMaps.getMenu().findItem(R.id.drawer_menu_register).setVisible(false);
+            navigationViewMaps.getMenu().findItem(R.id.drawer_menu_new_location).setVisible(true);
             navigationViewMaps.getMenu().findItem(R.id.drawer_menu_profile).setVisible(true);
             navigationViewMaps.getMenu().findItem(R.id.drawer_menu_logout).setVisible(true);
         }
@@ -97,6 +101,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawerLayoutMaps.closeDrawer(GravityCompat.START);
                 Intent intent = new Intent(MapsActivity.this, FeedbackActivity.class);
                 startActivity(intent);
+                return false;
+            }
+        });
+
+        navigationViewMaps.getMenu().findItem(R.id.drawer_menu_new_location).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                drawerLayoutMaps.closeDrawer(GravityCompat.START);
+                Toast.makeText(MapsActivity.this, "Jelöljön ki egy helyet a térképen", Toast.LENGTH_SHORT).show();
+                newLocation = true;
                 return false;
             }
         });
@@ -146,6 +160,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onFinish() {
                         navigationViewMaps.getMenu().findItem(R.id.drawer_menu_login).setVisible(true);
                         navigationViewMaps.getMenu().findItem(R.id.drawer_menu_register).setVisible(true);
+                        navigationViewMaps.getMenu().findItem(R.id.drawer_menu_new_location).setVisible(false);
                         navigationViewMaps.getMenu().findItem(R.id.drawer_menu_profile).setVisible(false);
                         navigationViewMaps.getMenu().findItem(R.id.drawer_menu_logout).setVisible(false);
                     }
@@ -194,6 +209,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             }
         });
+
+        googleMap.setOnMapClickListener(this);
+    }
+
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+        if(newLocation) {
+            newLocation = false;
+            Intent intent = new Intent(MapsActivity.this, NewLocationActivity.class);
+            intent.putExtra("lat", latLng.latitude + "");
+            intent.putExtra("lng", latLng.longitude + "");
+            startActivity(intent);
+        }
     }
 
     private class RequestTaskGetLocations extends AsyncTask<Void, Void, Response> {

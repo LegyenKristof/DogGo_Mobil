@@ -4,22 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FeedbackActivity">
-    
+    tools:context=".NewLocationActivity">
+
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guidelineFeedback"
+        android:id="@+id/guidelineNewLocation"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"/>
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextFeedback"
-        android:hint="Komment"
-        app:layout_constraintTop_toTopOf="@+id/guidelineFeedback"
-        app:layout_constraintBottom_toBottomOf="@+id/guidelineFeedback"/>
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/guidelineNewLocation">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextNewLocationName"
+            android:hint="Hely neve"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextNewLocationDescription"
+            android:hint="Hely leírása"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,13 +43,13 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonFeedbackSend"
-            android:text="Visszajelzés küldése"/>
+            android:id="@+id/buttonNewLocationSend"
+            android:text="Hely hozzáadása"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonFeedbackCancel"
+            android:id="@+id/buttonNewLocationCancel"
             android:text="Mégse"/>
 
     </LinearLayout>
