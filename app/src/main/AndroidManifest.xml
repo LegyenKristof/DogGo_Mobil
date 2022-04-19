@@ -18,6 +18,9 @@
         android:theme="@style/Theme.DogGo_Mobil"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".RatingActivity"
             android:exported="false" />
         <activity

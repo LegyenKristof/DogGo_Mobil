@@ -139,7 +139,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 drawerLayoutMaps.closeDrawer(GravityCompat.START);
-                Intent intent = new Intent(MapsActivity.this, RegisterActivity.class);
+                Intent intent = new Intent(MapsActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 return false;
             }
@@ -245,7 +245,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             super.onPostExecute(response);
             Gson converter = new Gson();
             if (response == null || response.getResponseCode() >= 400){
-                Toast.makeText(MapsActivity.this, "Hiba történt a helyek betöltése közben.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Hiba történt a helyek betöltése során", Toast.LENGTH_SHORT).show();
             }
             else {
                 Location[] locations = converter.fromJson(response.getContent(), Location[].class);
