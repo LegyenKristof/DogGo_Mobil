@@ -74,6 +74,7 @@ public class LocationActivity extends AppCompatActivity {
         buttonRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buttonRating.setEnabled(false);
                 Intent intent = new Intent(LocationActivity.this, RatingActivity.class);
                 intent.putExtra("location_id", id + "");
                 startActivity(intent);
@@ -91,6 +92,12 @@ public class LocationActivity extends AppCompatActivity {
 
         RequestTaskGetRatings  ratingTask = new RequestTaskGetRatings();
         ratingTask.execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new RequestTaskGetRatings().execute();
     }
 
     private void init() {
@@ -176,8 +183,61 @@ public class LocationActivity extends AppCompatActivity {
 
                 RatingAdapter adapter = new RatingAdapter();
                 listViewRatings.setAdapter(adapter);
+
+                new RequestTaskGetUser().execute();
             }
 
+        }
+    }
+
+    private class RequestTaskGetUser extends AsyncTask<Void, Void, Response> {
+
+        @Override
+        protected Response doInBackground(Void... voids) {
+
+            Response response = null;
+            try {
+                response = RequestHandler.getBearer(MapsActivity.URL + "user", sharedPreferences.getString("token", ""));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Response response) {
+            super.onPostExecute(response);
+            Gson converter = new Gson();
+            if (response == null){
+                Toast.makeText(LocationActivity.this, "Hiba történt a felhasználó betöltése során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(LocationActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(LocationActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                User user = converter.fromJson(response.getContent(), User.class);
+                boolean alreadyRated = false;
+                for(LocationRating r : ratingList) {
+                    if(r.getUser_id() == user.getId()) {
+                        alreadyRated = true;
+                        break;
+                    }
+                }
+                if(alreadyRated) {
+                    buttonRating.setText("Már értékelte ezt a helyet");
+                }
+                else {
+                    buttonRating.setEnabled(true);
+                }
+            }
         }
     }
 

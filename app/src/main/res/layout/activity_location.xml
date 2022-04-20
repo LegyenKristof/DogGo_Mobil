@@ -54,7 +54,8 @@
         android:layout_height="wrap_content"
         android:text="Értékelés"
         app:layout_constraintBottom_toTopOf="@+id/buttonVissza"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:enabled="false"/>
 
     <Button
         android:id="@+id/buttonVissza"
