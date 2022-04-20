@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "A felhasználónév minimum 5, maximum 20 karakterből állhat!", Toast.LENGTH_SHORT).show();
                 }
                 else if(password.isEmpty() || password.length() < 8) {
-                    Toast.makeText(LoginActivity.this, "A jelszó minimum 8 karakterből állhat!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "A jelszónak minimum 8 karakterből kell állnia!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     new RequestTaskLogin().execute();
@@ -99,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 catch (Exception e) {
                     Toast.makeText(LoginActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+
                 }
             }
             else {

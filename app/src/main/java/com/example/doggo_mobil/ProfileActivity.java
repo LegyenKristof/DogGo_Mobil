@@ -159,6 +159,9 @@ public class ProfileActivity extends AppCompatActivity {
             if (response == null){
                 Toast.makeText(ProfileActivity.this, "Hiba történt a módosítás során", Toast.LENGTH_SHORT).show();
             }
+            else if(response.getContent().contains("Duplicate entry")) {
+                Toast.makeText(ProfileActivity.this, "The username has already been taken.", Toast.LENGTH_SHORT).show();
+            }
             else if(response.getResponseCode() >= 400) {
                 try {
                     ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
