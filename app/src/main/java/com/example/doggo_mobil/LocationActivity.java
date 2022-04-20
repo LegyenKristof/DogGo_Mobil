@@ -40,7 +40,7 @@ import java.util.Optional;
 public class LocationActivity extends AppCompatActivity {
 
     private TextView textViewLocationName;
-    private TextView textViewLocationDescription;
+    private TextView textViewLocationDescription, textViewLocationAverage;
     private int id;
     private ListView listViewRatings;
     public List<LocationRating> ratingList = new ArrayList<>();
@@ -54,6 +54,8 @@ public class LocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_location);
         id = getIntent().getExtras().getInt("id");
         init();
+
+        new RequestTaskGetAverageRating().execute();
 
         sharedPreferences = LocationActivity.this.getSharedPreferences("token", Context.MODE_PRIVATE);
 
@@ -94,6 +96,7 @@ public class LocationActivity extends AppCompatActivity {
     private void init() {
         textViewLocationName = findViewById(R.id.textViewLocationName);
         textViewLocationDescription = findViewById(R.id.textViewLocationDescription);
+        textViewLocationAverage = findViewById(R.id.textViewLocationAverage);
         listViewRatings = findViewById(R.id.listViewComments);
         buttonVissza = findViewById(R.id.buttonVissza);
         buttonRating = findViewById(R.id.buttonRating);
@@ -173,6 +176,46 @@ public class LocationActivity extends AppCompatActivity {
 
                 RatingAdapter adapter = new RatingAdapter();
                 listViewRatings.setAdapter(adapter);
+            }
+
+        }
+    }
+
+    private class RequestTaskGetAverageRating extends AsyncTask<Void, Void, Response> {
+
+        @Override
+        protected Response doInBackground(Void... voids) {
+
+            Response response = null;
+            try {
+                response = RequestHandler.get(MapsActivity.URL + "location_avgrating/" + id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(Response response) {
+            super.onPostExecute(response);
+            Gson converter = new Gson();
+            if (response == null){
+                Toast.makeText(LocationActivity.this, "Hiba történt a kérés feldolgozása során", Toast.LENGTH_SHORT).show();
+            }
+            else if(response.getResponseCode() >= 400) {
+                try {
+                    ErrorMessage errorMessage = converter.fromJson(response.getContent(), ErrorMessage.class);
+                    Toast.makeText(LocationActivity.this, errorMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(LocationActivity.this, response.getContent(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            else {
+                Location location = converter.fromJson(response.getContent(), Location.class);
+                textViewLocationAverage.setText("Átlagos értékelés: " + location.getAtlag());
             }
 
         }

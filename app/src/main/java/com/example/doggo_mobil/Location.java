@@ -8,6 +8,7 @@ public class Location {
     private double lng;
     private boolean allowed;
     private int user_id;
+    private double atlag;
 
     public Location(int id, String name, String description, double lat, double lng, boolean allowed, int user_id) {
         this.id = id;
@@ -17,6 +18,17 @@ public class Location {
         this.lng = lng;
         this.allowed = allowed;
         this.user_id = user_id;
+    }
+
+    public Location(int id, String name, String description, double lat, double lng, boolean allowed, int user_id, double atlag) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.lat = lat;
+        this.lng = lng;
+        this.allowed = allowed;
+        this.user_id = user_id;
+        this.atlag = atlag;
     }
 
     public int getId() {
@@ -45,6 +57,10 @@ public class Location {
 
     public int getUser_id() {
         return user_id;
+    }
+
+    public double getAtlag() {
+        return atlag;
     }
 
     @Override
