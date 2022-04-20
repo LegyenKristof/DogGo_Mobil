@@ -47,8 +47,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean newLocation = false;
 
-//    public static final String URL = "http://10.0.2.2:8000/api/";
-    public static final String URL = "http://192.168.0.199:8000/api/";
+    public static final String URL = "http://10.0.2.2:8000/api/";
+//    public static final String URL = "http://192.168.0.199:8000/api/";
     public static List<Location> locationList;
 
 

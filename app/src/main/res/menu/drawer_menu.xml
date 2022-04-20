@@ -6,31 +6,37 @@
     <item
         android:id="@+id/drawer_menu_profile"
         android:title="Adatlapom"
-        android:visible="false"/>
+        android:visible="false"
+        android:icon="@drawable/profile"/>
 
     <item
         android:id="@+id/drawer_menu_new_location"
         android:title="Hely hozzáadása"
-        android:visible="false"/>
+        android:visible="false"
+        android:icon="@drawable/new_location"/>
 
     <item
         android:id="@+id/drawer_menu_login"
         android:title="Bejelentkezés"
-        android:visible="true"/>
+        android:visible="true"
+        android:icon="@drawable/login"/>
 
     <item
         android:id="@+id/drawer_menu_register"
         android:title="Regisztráció"
-        android:visible="true"/>
+        android:visible="true"
+        android:icon="@drawable/register"/>
 
     <item
         android:id="@+id/drawer_menu_feedback"
         android:title="Visszajelzés"
-        android:visible="true"/>
+        android:visible="true"
+        android:icon="@drawable/feedback"/>
 
     <item
         android:id="@+id/drawer_menu_logout"
         android:title="Kijelentkezés"
-        android:visible="false"/>
+        android:visible="false"
+        android:icon="@drawable/logout"/>
 
 </menu>
